@@ -1,6 +1,4 @@
-// Wait for DOM to be fully loaded before accessing elements
 document.addEventListener('DOMContentLoaded', () => {
-    // DOM Elements
     const welcomeScreen = document.getElementById('welcome-screen');
     const instructionScreen = document.getElementById('instruction-screen');
     const quizScreen = document.getElementById('quiz-screen');
@@ -28,7 +26,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const playAgainBtn = document.getElementById('play-again-btn');
     const homeBtn = document.getElementById('home-btn');
 
-    // Game state
     const gameState = {
         playerName: '',
         difficulty: '',
@@ -41,7 +38,6 @@ document.addEventListener('DOMContentLoaded', () => {
         timer: null
     };
 
-    // Question Bank
     const questionBank = {
         junior: [
             {
@@ -201,7 +197,6 @@ document.addEventListener('DOMContentLoaded', () => {
         ]
     };
 
-    // Helper Functions
     function shuffleArray(array) {
         for (let i = array.length - 1; i > 0; i--) {
             const j = Math.floor(Math.random() * (i + 1));
@@ -211,7 +206,6 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     function formatCode(code) {
-        // Basic syntax highlighting
         const keywordRegex = /\b(function|return|if|else|let|const|var|new|try|catch|class|extends|super|async|await|yield|for|while|of|in|null|undefined|true|false)\b/g;
         const stringRegex = /(['"`])(?:(?=(\\?))\2.)*?\1/g;
         const numberRegex = /\b(\d+(\.\d+)?)\b/g;
@@ -234,14 +228,12 @@ document.addEventListener('DOMContentLoaded', () => {
         return formattedCode;
     }
 
-    // Function to switch screens
     function showScreen(screen) {
         const screens = [welcomeScreen, instructionScreen, quizScreen, resultScreen];
         screens.forEach(s => s.classList.remove('active'));
         screen.classList.add('active');
     }
 
-    // Function to start timer
     function startTimer() {
         clearInterval(gameState.timer);
         gameState.timeRemaining = 30;
@@ -264,74 +256,60 @@ document.addEventListener('DOMContentLoaded', () => {
         }, 1000);
     }
 
-    // Function to load question
     function loadQuestion() {
         const question = gameState.questions[gameState.currentQuestionIndex];
         
-        // Update question counter
         questionCounter.textContent = gameState.currentQuestionIndex + 1;
         totalQuestionsEl.textContent = gameState.totalQuestions;
         
-        // Update code
         questionCode.innerHTML = formatCode(question.code);
         
-        // Reset options
         optionBtns.forEach((btn, index) => {
             btn.textContent = question.options[index];
             btn.className = 'option-btn';
             btn.disabled = false;
         });
         
-        // Hide feedback and next button
         feedback.className = 'feedback';
         nextBtn.style.display = 'none';
         
-        // Start timer
         startTimer();
     }
 
-    // Function to handle answer
     function handleAnswer(selectedIndex) {
         clearInterval(gameState.timer);
         
         const question = gameState.questions[gameState.currentQuestionIndex];
         const correctIndex = question.correctIndex;
         
-        // Disable all options
         optionBtns.forEach(btn => {
             btn.disabled = true;
         });
         
-        // If user selected an answer
         if (selectedIndex !== null) {
             optionBtns[selectedIndex].classList.add('selected');
             
             if (selectedIndex === correctIndex) {
-                // Correct answer
                 optionBtns[selectedIndex].classList.add('correct');
-                feedback.textContent = '✓ Benar! Jawaban tepat.';
+                feedback.textContent = '✓ Anjay Bener! Jawabannya tepat sekali bosku.';
                 feedback.className = 'feedback correct';
                 gameState.score += 10;
                 gameState.correctAnswers++;
             } else {
-                // Incorrect answer
                 optionBtns[selectedIndex].classList.add('incorrect');
                 optionBtns[correctIndex].classList.add('correct');
                 feedback.textContent = '✗ Salah! Jawaban yang benar adalah: ' + question.options[correctIndex];
                 feedback.className = 'feedback incorrect';
             }
         } else {
-            // Time's up
             optionBtns[correctIndex].classList.add('correct');
             feedback.textContent = '⏰ Waktu habis! Jawaban yang benar adalah: ' + question.options[correctIndex];
             feedback.className = 'feedback incorrect';
         }
         
-        // Show next button
         nextBtn.style.display = 'flex';
     }
 
-    // Function to show results
     function showResults() {
         resultPlayerName.textContent = gameState.playerName;
         resultDifficulty.textContent = gameState.difficulty.charAt(0).toUpperCase() + gameState.difficulty.slice(1);
@@ -342,8 +320,6 @@ document.addEventListener('DOMContentLoaded', () => {
         showScreen(resultScreen);
     }
 
-    // Event Listeners
-    // Start button click
     startBtn.addEventListener('click', () => {
         const playerName = playerNameInput.value.trim();
         if (playerName) {
@@ -358,7 +334,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
     
-    // Difficulty buttons click
     difficultyBtns.forEach(btn => {
         btn.addEventListener('click', () => {
             const difficulty = btn.getAttribute('data-difficulty');
@@ -370,24 +345,20 @@ document.addEventListener('DOMContentLoaded', () => {
             gameState.correctAnswers = 0;
             gameState.totalQuestions = gameState.questions.length;
             
-            // Update difficulty display
             difficultyDisplay.textContent = difficulty.charAt(0).toUpperCase() + difficulty.slice(1);
             difficultyDisplay.className = difficulty;
             
-            // Start quiz
             showScreen(quizScreen);
             loadQuestion();
         });
     });
     
-    // Option buttons click
     optionBtns.forEach((btn, index) => {
         btn.addEventListener('click', () => {
             handleAnswer(index);
         });
     });
     
-    // Next button click
     nextBtn.addEventListener('click', () => {
         gameState.currentQuestionIndex++;
         
@@ -398,25 +369,21 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
     
-    // Play again button click
     playAgainBtn.addEventListener('click', () => {
         showScreen(instructionScreen);
     });
     
-    // Home button click
     homeBtn.addEventListener('click', () => {
         playerNameInput.value = '';
         showScreen(welcomeScreen);
     });
     
-    // Enter key press on player name input
     playerNameInput.addEventListener('keypress', (e) => {
         if (e.key === 'Enter') {
             startBtn.click();
         }
     });
     
-    // Add typing effect to player name input
     playerNameInput.addEventListener('focus', () => {
         playerNameInput.classList.add('typing-effect');
     });
@@ -425,7 +392,6 @@ document.addEventListener('DOMContentLoaded', () => {
         playerNameInput.classList.remove('typing-effect');
     });
 
-    // Initialize game - show the welcome screen first
     showScreen(welcomeScreen);
     
     
@@ -435,7 +401,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const canvas = document.createElement('canvas');
     canvas.id = 'space-background';
     
-    // Set canvas styles
     Object.assign(canvas.style, {
         position: 'fixed',
         top: 0,
@@ -444,24 +409,21 @@ document.addEventListener('DOMContentLoaded', () => {
         height: '100%',
         zIndex: '-1',
         pointerEvents: 'none',
-        backgroundColor: '#0d1117' // Dark space background color
+        backgroundColor: '#0d1117' 
     });
     
     document.body.prepend(canvas);
     
     const ctx = canvas.getContext('2d');
     
-    // Set canvas dimensions to match window
     function resizeCanvas() {
         canvas.width = window.innerWidth;
         canvas.height = window.innerHeight;
     }
     
-    // Initialize particles array
     let particles = [];
     const PARTICLE_COUNT = 150;
     
-    // Create particles
     function createParticles() {
         particles = [];
         for (let i = 0; i < PARTICLE_COUNT; i++) {
@@ -477,25 +439,22 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
     
-    // Get a random star color
     function getRandomColor() {
         const colors = [
-            '#ffffff', // White
-            '#f7df1e', // JS Yellow
-            '#ececec', // Light Grey
-            '#8be9fd', // Light Blue
-            '#d4d4d4'  // Silver
+            '#ffffff',
+            '#f7df1e', 
+            '#ececec', 
+            '#8be9fd',
+            '#d4d4d4' 
         ];
         return colors[Math.floor(Math.random() * colors.length)];
     }
     
-    // Update particles position
     function updateParticles() {
         particles.forEach(p => {
             p.x += p.speedX;
             p.y += p.speedY;
             
-            // Wrap particles around screen edges
             if (p.x < 0) p.x = canvas.width;
             if (p.x > canvas.width) p.x = 0;
             if (p.y < 0) p.y = canvas.height;
@@ -503,18 +462,15 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
     
-    // Draw particles on canvas
     function drawParticles() {
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         
-        // Add a gradient background effect
         const gradient = ctx.createLinearGradient(0, 0, 0, canvas.height);
         gradient.addColorStop(0, '#0d1117');
         gradient.addColorStop(1, '#161b22');
         ctx.fillStyle = gradient;
         ctx.fillRect(0, 0, canvas.width, canvas.height);
         
-        // Draw each particle
         particles.forEach(p => {
             ctx.beginPath();
             ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
@@ -524,11 +480,9 @@ document.addEventListener('DOMContentLoaded', () => {
             ctx.globalAlpha = 1;
         });
         
-        // Draw connecting lines between nearby particles
         connectParticles();
     }
     
-    // Connect particles with lines if they're close enough
     function connectParticles() {
         const maxDistance = 100;
         
@@ -540,7 +494,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                 if (distance < maxDistance) {
                     ctx.beginPath();
-                    ctx.strokeStyle = '#f7df1e'; // JS Yellow
+                    ctx.strokeStyle = '#f7df1e'; 
                     ctx.globalAlpha = 0.1 * (1 - distance / maxDistance);
                     ctx.lineWidth = 0.5;
                     ctx.moveTo(particles[i].x, particles[i].y);
@@ -552,7 +506,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }
     
-    // Mouse interaction
     let mouseX = 0;
     let mouseY = 0;
     
@@ -560,7 +513,6 @@ document.addEventListener('DOMContentLoaded', () => {
         mouseX = e.clientX;
         mouseY = e.clientY;
         
-        // Attract nearby particles to mouse
         particles.forEach(p => {
             const dx = mouseX - p.x;
             const dy = mouseY - p.y;
@@ -572,7 +524,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 p.speedX += Math.cos(angle) * force;
                 p.speedY += Math.sin(angle) * force;
                 
-                // Limit maximum speed
                 const maxSpeed = 2;
                 const currentSpeed = Math.sqrt(p.speedX * p.speedX + p.speedY * p.speedY);
                 if (currentSpeed > maxSpeed) {
@@ -583,14 +534,12 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
     
-    // Animation loop
     function animate() {
         updateParticles();
         drawParticles();
         requestAnimationFrame(animate);
     }
     
-    // Initialize
     window.addEventListener('resize', () => {
         resizeCanvas();
         createParticles();
@@ -600,7 +549,6 @@ document.addEventListener('DOMContentLoaded', () => {
     createParticles();
     animate();
     
-    // Create some special shooting stars
     setInterval(() => {
         const shootingStar = {
             x: Math.random() * canvas.width,
@@ -615,11 +563,9 @@ document.addEventListener('DOMContentLoaded', () => {
             ctx.beginPath();
             ctx.moveTo(shootingStar.x, shootingStar.y);
             
-            // Calculate end point based on angle and length
             const endX = shootingStar.x + Math.cos(shootingStar.angle) * shootingStar.length;
             const endY = shootingStar.y + Math.sin(shootingStar.angle) * shootingStar.length;
             
-            // Create gradient for shooting star
             const gradient = ctx.createLinearGradient(
                 shootingStar.x, shootingStar.y, 
                 endX, endY
@@ -632,12 +578,10 @@ document.addEventListener('DOMContentLoaded', () => {
             ctx.lineWidth = 2;
             ctx.stroke();
             
-            // Move shooting star
             shootingStar.x += Math.cos(shootingStar.angle) * shootingStar.speed;
             shootingStar.y += Math.sin(shootingStar.angle) * shootingStar.speed;
             shootingStar.opacity -= 0.02;
             
-            // Remove when off screen or faded out
             if (shootingStar.opacity <= 0 || 
                 shootingStar.x > canvas.width || 
                 shootingStar.y > canvas.height) {
