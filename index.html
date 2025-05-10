@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>JavaScript Function Quest</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+    <!-- HEADER -->
+    <header>
+        <div class="container">
+            <div class="header-content">
+                <h1><i class="fab fa-js"></i> JavaScript Function Quest</h1>
+                <p>Uji pengetahuan JavaScript kamu dengan game seru ini!</p>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <main class="container">
+        <!-- WELCOME SCREEN -->
+        <section id="welcome-screen" class="screen active">
+            <div class="welcome-content">
+                <h2 class="title-animation">Selamat Datang!</h2>
+                <div class="input-group">
+                    <label for="player-name">Masukkan Nama Kamu:</label>
+                    <input type="text" id="player-name" placeholder="Nama kamu" autofocus>
+                </div>
+                <button id="start-btn" class="btn btn-primary">
+                    <span>Mulai Petualangan</span>
+                    <i class="fas fa-rocket"></i>
+                </button>
+            </div>
+        </section>
+
+        <!-- INSTRUCTION SCREEN -->
+        <section id="instruction-screen" class="screen">
+            <div class="instruction-content">
+                <h2>Halo, <span id="player-name-display"></span>!</h2>
+                <div class="rules-card">
+                    <h3><i class="fas fa-scroll"></i> Aturan Permainan</h3>
+                    <ul>
+                        <li>Kamu akan diberikan beberapa fungsi JavaScript</li>
+                        <li>Tugasmu adalah menebak output dari fungsi tersebut</li>
+                        <li>Pilih jawaban yang tepat dari empat pilihan yang diberikan</li>
+                        <li>Jawaban benar mendapatkan poin, jawaban salah tidak akan dikurangi</li>
+                        <li>Selesaikan semua soal untuk melihat skor akhirmu</li>
+                    </ul>
+                </div>
+                <div class="difficulty-selection">
+                    <h3>Pilih Tingkat Kesulitan:</h3>
+                    <div class="difficulty-buttons">
+                        <button data-difficulty="junior" class="btn btn-difficulty">
+                            <span>Junior</span>
+                            <div class="difficulty-info">5 Soal</div>
+                        </button>
+                        <button data-difficulty="mid" class="btn btn-difficulty">
+                            <span>Mid</span>
+                            <div class="difficulty-info">10 Soal</div>
+                        </button>
+                        <button data-difficulty="senior" class="btn btn-difficulty">
+                            <span>Senior</span>
+                            <div class="difficulty-info">15 Soal</div>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- QUIZ SCREEN -->
+        <section id="quiz-screen" class="screen">
+            <div class="quiz-header">
+                <div class="quiz-info">
+                    <div id="question-counter">Soal <span id="current-question">1</span>/<span id="total-questions">5</span></div>
+                    <div id="difficulty-display"></div>
+                </div>
+                <div id="timer">
+                    <i class="fas fa-hourglass-half"></i>
+                    <span id="time-remaining">30</span>
+                </div>
+            </div>
+            
+            <div class="code-container">
+                <pre><code id="question-code"></code></pre>
+                <div class="question-prompt">Output dari kode di atas adalah?</div>
+            </div>
+            
+            <div class="options-container">
+                <button class="option-btn" data-index="0"></button>
+                <button class="option-btn" data-index="1"></button>
+                <button class="option-btn" data-index="2"></button>
+                <button class="option-btn" data-index="3"></button>
+            </div>
+            
+            <div id="feedback" class="feedback"></div>
+            
+            <button id="next-btn" class="btn btn-primary">
+                <span>Selanjutnya</span>
+                <i class="fas fa-arrow-right"></i>
+            </button>
+        </section>
+
+        <!-- RESULT SCREEN -->
+        <section id="result-screen" class="screen">
+            <div class="result-content">
+                <div id="result-animation" class="result-animation">
+                    <i class="fas fa-trophy"></i>
+                </div>
+                <h2>Hasil Akhir</h2>
+                <div class="player-info">
+                    <h3>Pemain: <span id="result-player-name"></span></h3>
+                    <h3>Level: <span id="result-difficulty"></span></h3>
+                </div>
+                <div class="score-container">
+                    <div class="score-card">
+                        <div class="score-value" id="final-score">0</div>
+                        <div class="score-label">Skor Total</div>
+                    </div>
+                    <div class="score-card">
+                        <div class="score-value" id="correct-answers">0</div>
+                        <div class="score-label">Jawaban Benar</div>
+                    </div>
+                    <div class="score-card">
+                        <div class="score-value" id="accuracy">0%</div>
+                        <div class="score-label">Akurasi</div>
+                    </div>
+                </div>
+                <div class="action-buttons">
+                    <button id="play-again-btn" class="btn btn-secondary">
+                        <i class="fas fa-redo"></i>
+                        <span>Main Lagi</span>
+                    </button>
+                    <button id="home-btn" class="btn btn-primary">
+                        <i class="fas fa-home"></i>
+                        <span>Kembali ke Beranda</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer>
+        <div class="container">
+            <p>© 2025 JavaScript Function Quest | Dibuat dengan <i class="fas fa-heart"></i> untuk pecinta JavaScript</p>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
